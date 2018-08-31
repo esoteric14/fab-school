@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+    <body>
+        <div class="row" id="container">
+        </div>
+    </body>
+        <script>
+    
+        $(document).ready(function() {
+        $.ajax({
+          type: 'GET',
+          url: "https://www.googleapis.com/youtube/v3/search?key=AIzaSyBJlZjhUYucqkJifwy8rXiK_AJYtA4uPnU&channelId=UCwBV-eg1dAkzrdjqJfyEj0w&part=snippet,id&order=date&maxResults=10",
+          data:{todo:"jsonp"},
+          dataType: "jsonp",
+          crossDomain: true,
+          success: callme,
+          error:function(jqXHR, textStatus, errorThrown){
+            alert(errorThrown);
+          }
+        });
+        })
+        function callme(data){
+              console.log(typeof data);
+              const obj  = data;
+              console.log(obj);
+              var allVideos = data.items;
+               console.log(data.items);
+              console.log(allVideos[2].id["videoId"]);
+              //var videoid = allVideos[3].id["videoId"];
+              //var url = 'https://www.youtube.com/embed/'+videoid+'?autoplay=1';
+              //document.getElementsByClassName("player")[0].src = url;
+
+            for(var i = 0; i < 10; i++){
+                var id = allVideos[i].id["videoId"];
+                var div = document.getElementById("container");
+				var newElement = document.createElement("iframe");
+                newElement.src = 'https://www.youtube.com/embed/'+id+'?autoplay=1';
+				newElement.setAttribute('id', "ytplayer");
+                newElement.setAttribute('frameborder', "0");
+                newElement.setAttribute('allowfullscreen', "allowfullscreen");
+				div.appendChild(newElement);
+            }
+
+        }
+
+    </script>
+</html>
